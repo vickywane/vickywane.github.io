@@ -8,8 +8,8 @@
             "description": "Aimed at beginners and intermediate developers, this course covers the creation of cross-platform mobile applications using Flutter and the Dart programming language",
             "rating": 4.2,
             "totalPurchases": 0,
+            "price": 40,
             "date_starting": ""
-
         },
         {
             "id": "55c3b52e-6f5c-4f7b-8d32-5f8d3a7c3e47",
@@ -19,6 +19,7 @@
             "description": " This course teaches full-stack development using Node.js for the backend and React for the frontend. It covers server-side programming, RESTful API development",
             "rating": 3.2,
             "totalPurchases": 0,
+            "price": 80,
             "date_starting": ""
         },
         {
@@ -28,6 +29,7 @@
             "spaces": 80,
             "description": "This course teaches the basics of game development using the Unity engine, covering game design principles, scripting in C#, physics, animation, and AI.",
             "rating": 5,
+            "price": 20,
             "totalPurchases": 0,
             "date_starting": ""
         },
@@ -48,6 +50,7 @@
             "spaces": 150,
             "description": "This practical course covers the essentials of DevOps practices, containerization with Docker, and orchestration with Kubernetes.",
             "rating": 3,
+            "price": 10,
             "totalPurchases": 0,
             "date_starting": ""
         },
@@ -58,6 +61,7 @@
             "spaces": 150,
             "description": " Essential for aspiring software engineers, this course dives into common data structures (like arrays, linked lists, and trees) and algorithms",
             "rating": 4,
+            "price": 85,
             "totalPurchases": 0,
             "date_starting": ""
         },
@@ -68,6 +72,7 @@
             "spaces": 150,
             "description": "Dive into front-end development by learning the building blocks of the web. Create beautiful, responsive websites and learn how to manipulate web elements using JavaScript.",
             "rating": 4.2,
+            "price": 25,
             "totalPurchases": 0,
             "date_starting": ""
         },
@@ -78,6 +83,7 @@
             "spaces": 50,
             "description": "Learn the basics of cloud services with Microsoft Azure. This course covers cloud storage, virtual machines, web services, and Azure's Cognitive Services.",
             "rating": 5,
+            "price": 75,
             "totalPurchases": 0,
             "date_starting": ""
         },
@@ -88,6 +94,7 @@
             "spaces": 100,
             "description": "Discover the power of Go (Golang), a language designed for building scalable and efficient software.",
             "rating": 4.2,
+            "price": 65,
             "totalPurchases": 0,
             "date_starting": ""
         },
@@ -98,6 +105,7 @@
             "spaces": 60,
             "description": "Learn the C# language and the .NET framework to build scalable, high-performance enterprise applications.",
             "rating": 3.2,
+            "price": 15,
             "totalPurchases": 0,
             "date_starting": ""
         }
