@@ -10,48 +10,114 @@
   </head>
 
   <body>
-    <header>
-      <nav class="flex justify-between h-[55px] items-center px-8">
-        <div>
-          <p class="text-2xl font-semibold">
-            <a href="/"> Course Sales </a>
-          </p>
-        </div>
+    <div id="vue-app-container">
+      <header>
+        <nav class="flex justify-between h-[55px] items-center px-8">
+          <div>
+            <p class="text-2xl font-semibold">
+              <a href="/"> Course Sales </a>
+            </p>
+          </div>
 
+          <div>
+            <ul class="flex flex-row">
+              <li class="px-4"><a href="/faq">FAQ</a></li>
+              <li class="px-4"><a href="/request-course">Request Course</a></li>
+              <li class="px-4">
+                <div class="flex relative">
+                  <a class="mr-2" href="/customer-support">Course Cart</a>
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                    />
+                  </svg>
+
+                  <div
+                    class="absolute flex justify-center text-white items-center bg-blue-500 -right-6 -bottom-4 h-[30px] w-[30px] rounded-3xl"
+                  >
+                    <p class="text-sm" > {{course_cart.length}} </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+
+      <section class="flex h-96 bg-[#FFF8F0] justify-center items-center">
+        <div class="max-w-[1240px] mx-6 lg:m-auto">
+          <h1 class="text-4xl font-semibold">
+            Learn Any Skill, <br />
+            Advance Your Career Path!
+          </h1>
+
+          <p class="mt-6">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book.
+          </p>
+
+          <div class="mt-6">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Purchase A Course
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-[1240px] mx-6 lg:m-auto">
         <div>
-          <ul class="flex flex-row">
-            <li class="px-4"><a href="/faq">FAQ</a></li>
-            <li class="px-4"><a href="/request-course">Request Course</a></li>
-            <li class="px-4">
-              <a href="/customer-support">Customer Support</a>
+          <div>
+            <div class="p-4">
+              <p class="text-3xl font-medium">Available Courses</p>
+            </div>
+
+            <hr />
+          </div>
+
+          <br />
+          <br />
+
+          <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <li v-for="item in lessons.courses">
+              <div
+                class="h-[400px] shadow-xl w-[350px] rounded-lg"
+                :key="item.id"
+              >
+                <div class="p-6">
+                  <p class="text-2xl font-semibold mb-4">{{item.subject}}</p>
+                  <p class="text-lg">{{item.description}}</p>
+
+                  <div class="w-full mt-8">
+                    <button
+                      @click="addCourseToCart(item.id)"
+                      class="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Purchase Course
+                    </button>
+                  </div>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
-      </nav>
-    </header>
-
-    <section class="flex h-96 bg-[#FFF8F0] justify-center items-center">
-      <div class="max-w-[960px]">
-        <h1 class="text-4xl font-semibold">
-          Learn Any Skill, <br />
-          Advance Your Career Path!
-        </h1>
-
-        <p class="mt-6">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </p>
-
-        <div class="mt-6">
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Purchase A Course
-          </button>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </body>
+
+  <!-- Vue JS File -->
+  <script type="module" src="./src/component/lesson.js"></script>
 </html>
