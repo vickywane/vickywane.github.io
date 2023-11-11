@@ -40,6 +40,7 @@
             "spaces": 150,
             "description": "This course provides an introduction to machine learning concepts and algorithms, using Python libraries such as scikit-learn, pandas, and TensorFlow.",
             "rating": 2,
+            "price": 42,
             "totalPurchases": 0,
             "date_starting": ""
         },
