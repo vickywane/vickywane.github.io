@@ -9,7 +9,7 @@ new Vue({
     lessons: Courses,
     courseCartModalVisibility: false,
     modalView: "CHECKOUT_ITEMS", // ITEMS_PAYMENT /OR/ CHECKOUT_ITEMS
-    
+
     sortField: "",
     sortOrder: "ascending",
     checkoutInfo: {},
@@ -20,16 +20,61 @@ new Vue({
     addCourseToCart: function (lessonId) {
       const course = this.lessons.courses.find((item) => item.id === lessonId);
 
+      this.lessons = {
+        courses: this.lessons.courses.map((item) => {
+          if (item.id === lessonId) {
+            return { ...item, spaces: item.spaces - 1 };
+          }
+
+          return item;
+        }),
+      };
+
+      this.course_cart.push(course);
+    },
+    removeCourseFromCart: function (lessonId) {
+      const course = this.lessons.courses.find((item) => item.id === lessonId);
+
+      this.lessons = {
+        courses: this.lessons.courses.map((item) => {
+          if (item.id === lessonId) {
+            return { ...item, spaces: item.spaces - 1 };
+          }
+
+          return item;
+        }),
+      };
+
       this.course_cart.push(course);
     },
     canAddToCart: function (lesson) {},
-    removeCourseFromCart(lessonId) {},
+    removeCourseFromCart(lessonId) {
+      const courseInCart = this.course_cart.find(
+        (course) => course.id === lessonId
+      );
 
+      // extra check to confirm course is in cart before filtering out
+      if (courseInCart) {
+        this.course_cart = this.course_cart.filter(
+          (item) => item?.id !== courseInCart?.id
+        );
+
+        this.lessons = {
+          courses: this.lessons.courses.map((item) => {
+            if (item.id === lessonId) {
+              return { ...item, spaces: item.spaces + 1 };
+            }
+  
+            return item;
+          }),
+        };
+      }
+    },
     setCourseCartModalVisibility: function (visibility) {
       this.courseCartModalVisibility = visibility;
     },
     setModalView: function (view) {
-      this.modalView = view
+      this.modalView = view;
     },
     sortAscending: function (field) {
       this.lessons.courses.sort((a, b) => {
