@@ -21,31 +21,156 @@
 
           <div>
             <ul class="flex flex-row">
-              <li class="px-4"><a href="/faq">FAQ</a></li>
-              <li class="px-4"><a href="/request-course">Request Course</a></li>
               <li class="px-4">
-                <div class="flex relative">
-                  <a class="mr-2" href="/customer-support">Course Cart</a>
-
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
+                <div>
+                  <a href="/faq">FAQ</a>
+                </div>
+              </li>
+              <li class="px-4">
+                <div>
+                  <a href="/request-course">Request Course</a>
+                </div>
+              </li>
+              <li class="px-4">
+                <div class="relative">
+                  <button
+                    :disabled="course_cart.length <= 0"
+                    :class=" course_cart.length <= 0 ? 'flex flex-row py-2 px-4' : 'flex flex-row hover:cursor-pointer hover:bg-[#FFF8F0] rounded-lg py-2 px-4'"
+                    @click="setCourseCartModalVisibility(!courseCartModalVisibility)"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                    />
-                  </svg>
+                    <p class="mr-2">Course Cart</p>
 
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                      />
+                    </svg>
+
+                    <div
+                      class="absolute flex justify-center text-white items-center bg-blue-500 -right-2 -bottom-3 h-[27px] w-[27px] rounded-3xl"
+                    >
+                      <p class="text-sm">{{course_cart.length}}</p>
+                    </div>
+                  </button>
+
+                  <!-- CART MODAL -->
                   <div
-                    class="absolute flex justify-center text-white items-center bg-blue-500 -right-5 -bottom-3 h-[27px] w-[27px] rounded-3xl"
+                    id="course-cart-modal"
+                    v-if="courseCartModalVisibility"
+                    class="bg-[#fff] shadow-xl absolute min-h-[400px] overflow w-[550px] right-0 top-12"
                   >
-                    <p class="text-sm">{{course_cart.length}}</p>
+                    <div class="flex items-center justify-between p-4">
+                      <div>
+                        <p class="text-xl semi-bold">Your Cart Items</p>
+                      </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="p-4 h-full">
+                      <div
+                        class="flex items-center h-full justify-center"
+                        v-if="course_cart.length <= 0"
+                      >
+                        <p>
+                          You don't have any item in your cart yet. <br />
+                          Click <b> Add Course To Cart </b> to add a course!
+                        </p>
+                      </div>
+
+                      <div v-else>
+                        <div v-if="modalView == 'CHECKOUT_ITEMS'">
+                          <div>
+                            <ul class="mb-6" v-for="course in course_cart">
+                              <li class="border-2 mt-4 p-4 rounded-xl">
+                                <div class="flex justify-between">
+                                  <p class="text-lg font-semibold">
+                                    {{course.subject}}
+                                  </p>
+
+                                  <p>${{course.price}}</p>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+
+                          <button
+                            @click="setModalView('ITEMS_PAYMENT')"
+                            class="bg-blue-500 flex justify-center w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                          >
+                            <span class="ml-4">
+                              Proceed To Pay : ${{totalCartPrice.price}}
+                            </span>
+                          </button>
+                        </div>
+
+                        <div v-else>
+                          <div class="mx-4">
+                            <p class="text-2xl font-semibold text-center">
+                              Complete Payment
+                            </p>
+                          </div>
+
+                          <form action="">
+                            <div class="flex flex-col mt-4">
+                              <label class="text-lg" for="card_name">
+                                Card Name
+                              </label>
+                              <input
+                                id="card_name"
+                                type="text"
+                                class="mt-4 p-2 border-2 h-[40px]"
+                                placeholder="Card Name"
+                              />
+                            </div>
+
+                            <div class="flex flex-col mt-4">
+                              <label class="text-lg" for="card_number">
+                                Card Number
+                              </label>
+                              <input
+                                id="card_number"
+                                type="text"
+                                class="mt-4 p-4 border-2 h-[40px]"
+                                placeholder="Card Number"
+                              />
+                            </div>
+
+                            <div class="flex flex-col mt-4">
+                              <label class="text-lg" for="address">
+                                Home Address
+                              </label>
+                              <input
+                                type="text"
+                                id="address"
+                                class="mt-4 p-2 border-2 h-[40px]"
+                                placeholder="Street / Town / City"
+                              />
+                            </div>
+
+                            <div class="mt-6">
+                              <button
+                                @click="setModalView('ITEMS_PAYMENT')"
+                                class="bg-blue-500 flex justify-center w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                              >
+                                <span class="ml-4">
+                                  Confirm Payment Of : ${{totalCartPrice.price}}
+                                </span>
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </li>
@@ -213,10 +338,26 @@
 
                   <div class="w-full mt-8">
                     <button
+                      :disabled="item.spaces <= 0"
                       @click="addCourseToCart(item.id)"
-                      class="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      :class="item.spaces <= 0 ? 'bg-blue-300 flex justify-center w-full text-white font-bold py-2 px-4 rounded' : 'bg-blue-500 hover:bg-blue-700 flex justify-center w-full text-white font-bold py-2 px-4 rounded'"
                     >
-                      Purchase Course
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                        />
+                      </svg>
+
+                      <span class="ml-4"> Add To Cart </span>
                     </button>
                   </div>
                 </div>
