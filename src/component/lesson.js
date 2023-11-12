@@ -1,53 +1,51 @@
-import Courses from "../data/lessons.json" assert { type: "json" };
+import lessons from "../data/lessons.js";
+
+const regexMatcher = (regex, text) => {
+  return text.match(text);
+};
 
 new Vue({
   el: "#vue-app-container",
   data: {
-    defaultSort: "subject",
-    sortDirection: "asc",
-    searchQuery: "",
-    lessons: Courses,
+    lessons,
     courseCartModalVisibility: false,
-    modalView: "CHECKOUT_ITEMS", // ITEMS_PAYMENT /OR/ CHECKOUT_ITEMS
+    modalView: "CHECKOUT_ITEMS", // ITEMS_PAYMENT /OR/ CHECKOUT_ITEMS /OR/ CHECKOUT_COMPLETE
 
+    customerName: "",
+    customerPhoneNumber: "",
+
+    searchText: "",
     sortField: "",
     sortOrder: "ascending",
     checkoutInfo: {},
     course_cart: [],
   },
   methods: {
-    sortLessons: function name(sortBy) {},
+    validateNameKeyPress: function (event) {
+      if (!/^[A-Za-z]+$/.test(event.key)) {
+        return event.preventDefault();
+      }
+    },
+    validatePhoneNumberKeyPress: function (event) {
+      if (!/^[0-9]+$/.test(event.key) && event.key !== "Backspace") {
+        return event.preventDefault();
+      }
+    },
     addCourseToCart: function (lessonId) {
-      const course = this.lessons.courses.find((item) => item.id === lessonId);
+      const course = this.lessons.find((item) => item.id === lessonId);
 
-      this.lessons = {
-        courses: this.lessons.courses.map((item) => {
-          if (item.id === lessonId) {
-            return { ...item, spaces: item.spaces - 1 };
-          }
+      // confirm that the course isnt already in cart
 
-          return item;
-        }),
-      };
+      this.lessons = this.lessons.map((item) => {
+        if (item.id === lessonId) {
+          return { ...item, spaces: item.spaces - 1 };
+        }
 
-      this.course_cart.push(course);
-    },
-    removeCourseFromCart: function (lessonId) {
-      const course = this.lessons.courses.find((item) => item.id === lessonId);
-
-      this.lessons = {
-        courses: this.lessons.courses.map((item) => {
-          if (item.id === lessonId) {
-            return { ...item, spaces: item.spaces - 1 };
-          }
-
-          return item;
-        }),
-      };
+        return item;
+      });
 
       this.course_cart.push(course);
     },
-    canAddToCart: function (lesson) {},
     removeCourseFromCart(lessonId) {
       const courseInCart = this.course_cart.find(
         (course) => course.id === lessonId
@@ -59,25 +57,33 @@ new Vue({
           (item) => item?.id !== courseInCart?.id
         );
 
-        this.lessons = {
-          courses: this.lessons.courses.map((item) => {
-            if (item.id === lessonId) {
-              return { ...item, spaces: item.spaces + 1 };
-            }
-  
-            return item;
-          }),
-        };
+        this.lessons = this.lessons.map((item) => {
+          if (item.id === lessonId) {
+            return { ...item, spaces: item.spaces + 1 };
+          }
+
+          return item;
+        });
+
+        // close checkout if last item is removed
+        if (this.course_cart.length <= 0) {
+          this.setCourseCartModalVisibility(false);
+        }
       }
     },
     setCourseCartModalVisibility: function (visibility) {
       this.courseCartModalVisibility = visibility;
     },
     setModalView: function (view) {
+      if (view === "CHECKOUT_COMPLETE") {
+        // reset cart
+        this.course_cart = [];
+      }
+
       this.modalView = view;
     },
     sortAscending: function (field) {
-      this.lessons.courses.sort((a, b) => {
+      this.lessons.sort((a, b) => {
         if (a[field] < b[field]) {
           return -1;
         }
@@ -88,7 +94,7 @@ new Vue({
       });
     },
     sortDescending: function (field) {
-      this.lessons.courses.sort((a, b) => {
+      this.lessons.sort((a, b) => {
         if (a[field] > b[field]) {
           return -1;
         }
@@ -100,11 +106,17 @@ new Vue({
     },
   },
   mounted() {
-    console.log("Vue App Is Loaded!");
+    console.log();
 
-    this.sortAscending("price");
+    // this.sortAscending("price");
   },
   computed: {
+    hasEnoughInfoToCheckout() {
+      return (
+        /^[A-Za-z]+$/.test(this.customerName) &&
+        /^[0-9]+$/.test(this.customerPhoneNumber)
+      );
+    },
     totalCartPrice() {
       return this.course_cart.reduce(
         (acc, newVal) => ({ price: acc.price + newVal.price }),
@@ -113,6 +125,22 @@ new Vue({
     },
   },
   watch: {
+    searchText: function (newVal) {
+      /*
+          This is my attempt to implement a fuzzy search type that finds 
+          search items using their characters.
+
+          My approach is to interpolate all attributes together in a single
+          string & leverage the .includes method to see if the search string exists in the lesson object. 
+          ( This may not be a very good approach performance-wise... but it works 🫣 ) 
+      */
+
+      this.lessons = lessons.filter(({ subject, price, location }) =>
+        `${subject.toLowerCase()} ${price} $${price} ${location.toLowerCase()}`.includes(
+          newVal.toLowerCase()
+        )
+      );
+    },
     sortField: function (newVal) {
       if (this.sortOrder === "ascending") {
         this.sortAscending(newVal);
