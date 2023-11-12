@@ -56,7 +56,7 @@
                   <div
                     id="course-cart-modal"
                     v-if="courseCartModalVisibility"
-                    class="bg-[#fff] shadow-xl absolute overflow w-[550px] right-0 top-12"
+                    class="bg-[#fff] shadow-xl absolute overflow w-full lgw-[550px] right-0 top-12"
                   >
                     <div class="flex items-center justify-between p-4">
                       <div>
@@ -263,9 +263,9 @@
         class="flex min-h-[400px] bg-[#FFF8F0] justify-center items-center"
       >
         <div
-          class="max-w-[1240px] mx-6 lg:m-auto flex flex-col-reverse md:flex-row py-12 md:py-0"
+          class="max-w-[1240px] mx-6 lg:m-auto flex flex-col-reverse lgflex-row py-12 lgpy-0"
         >
-          <div class="w-full md:max-w-[50%]">
+          <div class="w-full lgmax-w-[50%]">
             <h1 class="text-4xl font-semibold">
               Learn Any Skill, <br />
               Advance Your Career Path!
@@ -287,7 +287,7 @@
             </div>
           </div>
 
-          <div class="mb-8 md:mb-8 flex items-center w-full justify-center">
+          <div class="mb-8 lgmb-8 flex items-center w-full justify-center">
             <img
               src="./src/static/images/logo.png"
               alt="Logo"
@@ -299,8 +299,8 @@
 
       <section class="max-w-[1240px] mx-6 lg:m-auto">
         <div>
-          <div class="py-4 mb-6 flex justify-between items-center">
-            <div>
+          <div class="py-4 mb-6 flex flex-col lg:flex-row justify-between md:items-center">
+            <div class="mb-4 md:mb-0" >
               <p
                 v-if="searchText.length >= 1"
                 class="text-3xl font-medium"
@@ -309,13 +309,13 @@
                 Lessons for {{searchText}}
               </p>
 
-              <p v-else class="text-3xl font-medium" id="available-courses">
-                AllAvailable Lessons
+              <p v-else class="text-2xl md:text-3xl font-medium" id="available-courses">
+                All Available Lessons
               </p>
             </div>
 
-            <div>
-              <div class="border-2 px-2 flex w-[600px] rounded-lg items-center">
+            <div class="w-full md:w-fit">
+              <div class="border-2 px-2 flex w-full lg:w-[600px] rounded-lg items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -368,10 +368,10 @@
               <div class="flex">
                 <select v-model="sortField">
                   <option value="" disabled>None</option>
-                  <option value="subject">Lesson Subject</option>
-                  <option value="price">Lesson Price</option>
-                  <option value="location">Lesson Location</option>
-                  <option value="spaces">Lesson Space</option>
+                  <option value="subject"> Subject</option>
+                  <option value="price"> Price</option>
+                  <option value="location"> Location</option>
+                  <option value="spaces"> Space</option>
                 </select>
 
                 <select class="ml-8" v-model="sortOrder">
@@ -397,11 +397,11 @@
 
           <ul
             v-else
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
+            class="grid grid-cols-1 lggrid-cols-2 lg:grid-cols-3 gap-12"
           >
             <li v-for="item in lessons">
               <div
-                class="shadow-xl w-full md:w-[380px] rounded-lg"
+                class="shadow-xl w-full lgw-[380px] rounded-lg"
                 :key="item.id"
               >
                 <div class="flex justify-between">
