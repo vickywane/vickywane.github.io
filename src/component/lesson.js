@@ -9,7 +9,7 @@ new Vue({
   data: {
     lessons,
     courseCartModalVisibility: false,
-    modalView: "CHECKOUT_ITEMS", // ITEMS_PAYMENT /OR/ CHECKOUT_ITEMS /OR/ CHECKOUT_COMPLETE
+    appView: "SELECT_ITEMS", // ITEMS_PAYMENT /OR/ CHECKOUT_ITEMS /OR/ CHECKOUT_COMPLETE
 
     customerName: "",
     customerPhoneNumber: "",
@@ -18,7 +18,7 @@ new Vue({
     sortField: "",
     sortOrder: "ascending",
     checkoutInfo: {},
-    course_cart: [],
+    course_cart: [{}],
   },
   methods: {
     validateNameKeyPress: function (event) {
@@ -74,13 +74,13 @@ new Vue({
     setCourseCartModalVisibility: function (visibility) {
       this.courseCartModalVisibility = visibility;
     },
-    setModalView: function (view) {
+    setappView: function (view) {
       if (view === "CHECKOUT_COMPLETE") {
         // reset cart
         this.course_cart = [];
       }
 
-      this.modalView = view;
+      this.appView = view;
     },
     sortAscending: function (field) {
       this.lessons.sort((a, b) => {

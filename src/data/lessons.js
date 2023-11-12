@@ -3,7 +3,7 @@ const lessons = [
     id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
     subject: "Mobile App Development with Flutter",
     location: "Westminster Hall, London",
-    spaces: 1,
+    spaces: 5,
     description:
       "Aimed at beginners and intermediate developers, this course covers the creation of cross-platform mobile applications using Flutter and the Dart programming language",
     rating: 4.2,
